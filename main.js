@@ -5,7 +5,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 let penColor="#ff0000";
 const colorPicker = document.getElementById('colorPicker');
 colorPicker.addEventListener('input', (event) => {
-  // Get the selected color value
   penColor= event.target.value;
 });
 const download = document.getElementById('export');
@@ -13,10 +12,7 @@ download.addEventListener('click', (event) => {
   openCanvasInNewTab()
 });
 function openCanvasInNewTab() {
-  // Get the data URL of the canvas content
   const dataURL = drawingCanvas.toDataURL("image/png");
-
-  // Convert the data URL to a Blob
   const byteString = atob(dataURL.split(',')[1]);
   const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
   const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -27,8 +23,6 @@ function openCanvasInNewTab() {
   }
 
   const blob = new Blob([arrayBuffer], { type: mimeString });
-
-  // Create a URL for the Blob and open it in a new tab
   const blobURL = URL.createObjectURL(blob);
   window.open(blobURL, '_blank');
 }
@@ -110,7 +104,7 @@ function init() {
     roughness: 0.5
   });
 
-  // Create a metallic sphere
+
   const sphereGeometry =  createEggGeometry(0.5, 1.2, 32, 32) ;
   const sphereMaterial = new THREE.MeshStandardMaterial({
     color: 0xffffff,
@@ -134,10 +128,10 @@ function createEggGeometry(radius, height, widthSegments, heightSegments) {
   const vertices = geometry.attributes.position.array;
   for (let i = 0; i < vertices.length; i += 3) {
     const y = vertices[i + 1];
-    const factor = 1 + 0.3 * (y / radius); // Adjust the shape factor to form an egg
+    const factor = 1 + 0.3 * (y / radius);
     vertices[i] *= factor;
     vertices[i + 2] *= factor;
-    vertices[i + 1] *= (height / (2 * radius)); // Scale Y axis for egg height
+    vertices[i + 1] *= (height / (2 * radius)); 
   }
 
   geometry.computeVertexNormals();
@@ -169,10 +163,8 @@ function onMouseUp() {
   lastIntersection=undefined
 }
 function getMousePosition(event) {
-  // Get the bounding rectangle of the canvas
   const rect = renderer.domElement.getBoundingClientRect();
-  
-  // Calculate the correct mouse position relative to the canvas
+
   const mouse = new THREE.Vector2(
     ((event.clientX - rect.left) / rect.width) * 2 - 1,
     -((event.clientY - rect.top) / rect.height) * 2 + 1
@@ -211,7 +203,6 @@ function penDraw(event) {
   if (intersects.length > 0) {
     const intersect = intersects[0];
 
-    // Draw on the canvas
     const currentUV = intersect.uv;
     const currentX = currentUV.x * drawingCanvas.width;
     const currentY = (1 - currentUV.y) * drawingCanvas.height;
@@ -221,52 +212,29 @@ function penDraw(event) {
         const lastX = lastUV.x * drawingCanvas.width;
         const lastY = (1 - lastUV.y) * drawingCanvas.height;
 
-        // Calculate the absolute difference in UV coordinates
         const deltaU = Math.abs(currentUV.x - lastUV.x);
         const deltaV = Math.abs(currentUV.y - lastUV.y);
-        const dx = currentX - lastX;
-        const dy = currentY - lastY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        // Define a threshold to detect wrap-around
         const wrapThreshold = 0.5;
         
         if (deltaU > wrapThreshold) {
-          // U wrap-around detected
-
-          // Determine direction of wrap (left to right or right to left)
           if (currentUV.x > lastUV.x) {
             console.log(lastX+" "+lastY+" : "+currentX+" "+currentY)
-            // From right edge to left edge
-            // Draw from last point to right edge
             drawLine(drawingContext,penColor,lastX, lastY, 0,currentY);
-            // Draw from left edge to current point
             drawLine(drawingContext,penColor,drawingCanvas.width, lastY, currentX, currentY);
           } else {
-            // From left edge to right edge
-            // Draw from last point to left edge
             drawLine(drawingContext,penColor,lastX, lastY,drawingCanvas.width, lastY);
-            // Draw from right edge to current point
             drawLine(drawingContext,penColor,0, currentY, currentX, currentY);
           }
         } else if (deltaV > wrapThreshold) {
-          // V wrap-around detected
-
-          // Determine direction of wrap (bottom to top or top to bottom)
           if (currentUV.y > lastUV.y) {
-            // From bottom edge to top edge
-            // Draw from last point to bottom edge
             drawLine(drawingContext,penColor,lastX, lastY, lastX,0 );
-            // Draw from top edge to current point
+
             drawLine(drawingContext,penColor,currentX, drawingCanvas.height, currentX, currentY);
           } else {
-            // From top edge to bottom edge
-            // Draw from last point to top edge
             drawLine(drawingContext,penColor,lastX, lastY, lastX,  drawingCanvas.height);
-            // Draw from bottom edge to current point
             drawLine(drawingContext,penColor,currentX,0, currentX, currentY);
           }
         } else {
-          // No wrap-around, draw normally
           drawLine(drawingContext,penColor,lastX, lastY, currentX, currentY);
         }
     } else {
