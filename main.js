@@ -165,15 +165,15 @@ function draw(event) {
           if (currentUV.x > lastUV.x) {
             // From right edge to left edge
             // Draw from last point to right edge
-            drawLine(drawingContext,lastX, lastY, drawingCanvas.width, lastY);
+            drawLine(drawingContext,penColor,lastX, lastY, drawingCanvas.width, lastY);
             // Draw from left edge to current point
-            drawLine(drawingContext,0, currentY, currentX, currentY);
+            drawLine(drawingContext,penColor,0, currentY, currentX, currentY);
           } else {
             // From left edge to right edge
             // Draw from last point to left edge
-            drawLine(drawingContext,lastX, lastY, 0, lastY);
+            drawLine(drawingContext,penColor,lastX, lastY, 0, lastY);
             // Draw from right edge to current point
-            drawLine(drawingContext,drawingCanvas.width, currentY, currentX, currentY);
+            drawLine(drawingContext,penColor,drawingCanvas.width, currentY, currentX, currentY);
           }
         } else if (deltaV > wrapThreshold) {
           // V wrap-around detected
@@ -182,25 +182,22 @@ function draw(event) {
           if (currentUV.y > lastUV.y) {
             // From bottom edge to top edge
             // Draw from last point to bottom edge
-            drawLine(drawingContext,lastX, lastY, lastX, drawingCanvas.height);
+            drawLine(drawingContext,penColor,lastX, lastY, lastX, drawingCanvas.height);
             // Draw from top edge to current point
-            drawLine(drawingContext,currentX, 0, currentX, currentY);
+            drawLine(drawingContext,penColor,currentX, 0, currentX, currentY);
           } else {
             // From top edge to bottom edge
             // Draw from last point to top edge
-            drawLine(drawingContext,lastX, lastY, lastX, 0);
+            drawLine(drawingContext,penColor,lastX, lastY, lastX, 0);
             // Draw from bottom edge to current point
-            drawLine(drawingContext,currentX, drawingCanvas.height, currentX, currentY);
+            drawLine(drawingContext,penColor,currentX, drawingCanvas.height, currentX, currentY);
           }
         } else {
           // No wrap-around, draw normally
-          drawLine(drawingContext,lastX, lastY, currentX, currentY);
+          drawLine(drawingContext,penColor,lastX, lastY, currentX, currentY);
         }
     } else {
-      drawingContext.fillStyle = penColor;
-      drawingContext.beginPath();
-      drawingContext.arc(currentX, currentY, 5, 0, Math.PI * 2);
-      drawingContext.fill();
+      drawPoint(drawingContext,penColor,currentX,currentY)
     }
     secondaryMaterial.map.needsUpdate = true;
     lastIntersection=intersect;
@@ -209,13 +206,19 @@ function draw(event) {
     lastIntersection=undefined
   }
 }
-function drawLine(context,x1, y1, x2, y2) {
-  context.strokeStyle = penColor;
-  context.lineWidth=5;
+function drawLine(context,color,x1, y1, x2, y2,width=5) {
+  context.strokeStyle = color;
+  context.lineWidth=width;
   context.beginPath();
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.stroke();
+}
+function drawPoint(context,color,x,y,width=3){
+    context.fillStyle = color;
+    context.beginPath();
+    context.arc(x, y, width, 0, Math.PI * 2);
+    context.fill();
 }
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
