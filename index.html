@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <style>
+      body{
+        overflow: hidden;
+        margin: 0;
+        background: linear-gradient(0deg, #4d4d4d 50%, rgb(146, 146, 146) 100%);
+      }
+      .color-picker-container {
+            margin: 10px;
+        }
+
+        .color-picker-label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .color-picker-input {
+            width: 30px;
+            height: 30px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/main.js"></script>
+    <input type="color" id="colorPicker" class="color-picker-input">
+  </body>
+</html>
