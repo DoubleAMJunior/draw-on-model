@@ -13,10 +13,18 @@ body{
     margin-right: 10px;
 }
 input[type="color"] {
+    appearance: none;
     -webkit-appearance: none;
     border: none;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
+}
+.color-picker-parent{
+    display: flex;
+    justify-content: center;
+}   
+.color-picker-holder{
+    width: 30;
 }
 input[type="color"]::-webkit-color-swatch-wrapper {
     padding: 0;
@@ -29,14 +37,18 @@ border: none;
     position: absolute;
     top:10% ;
     margin: 5px; 
-    width: 75px;
+    width: 150px;
     padding: 20px;
     background-color: #333; /* Dark background for the sidebar */
     border-right: 1px solid #444; /* Slight border for separation */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     border-radius: 4px;
 }
-
+.pen-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .sidebar h2 {
     font-size: 22px;
     margin-bottom: 20px;
@@ -85,4 +97,22 @@ border: none;
 .tool-section button:hover {
     background: linear-gradient(145deg, #555, #666); /* Lighter gradient on hover */
     transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.selected{
+    background: linear-gradient(145deg, #555, #666); /* Lighter gradient on hover */
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.pen-section button{
+    width: 70px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background: linear-gradient(145deg, #444, #555); /* Shiny gradient */
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s;
 }

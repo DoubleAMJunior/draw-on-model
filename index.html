@@ -15,19 +15,21 @@
     <div class="sidebar">
       <h2>Tools</h2>
 
-      <div class="tool-section">
+      <div class="tool-sectio ">
           <label for="colorPicker">Pen Color</label>
-          <input type="color" id="colorPicker" class="color-picker-input" value="#000000">
+          <div class=" color-picker-holder">
+            <div class="color-picker-parent">
+              <input type="color" id="colorPicker" class="color-picker-input" value="#ff0000">
+            </div>
+          </div>  
       </div>
 
       <div class="tool-section">
-          <label for="pen">Pen</label>
-          <button id="pen">Pen</button>
-      </div>
-
-      <div class="tool-section">
-          <label for="circlePen">Circle Pen</label>
-          <button id="circlePen">Circle Pen</button>
+          <label for="pen type">Pen Type</label>
+          <div class="pen-section">
+            <button id="pen" class="selected">Pen</button>
+            <button id="circlePen">Circle Pen</button>
+          </div>
       </div>
 
       <div class="tool-section">

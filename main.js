@@ -4,11 +4,25 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let penColor="#ff0000";
 const colorPicker = document.getElementById('colorPicker');
-colorPicker.value=penColor
 colorPicker.addEventListener('input', (event) => {
   // Get the selected color value
   penColor= event.target.value;
 });
+
+let toolState="pen";
+const penButton = document.getElementById('pen');
+const circlePenButton = document.getElementById('circlePen');
+penButton.addEventListener('click', (event) => {
+    toolState="pen";
+    penButton.className="selected";
+    circlePenButton.className="";
+});
+circlePenButton.addEventListener('click', (event) => {
+  toolState="circle";
+  circlePenButton.className="selected";
+  penButton.className="";
+});
+
 
 let scene, camera, renderer, controls, sphere, drawingCanvas, drawingContext, secondaryMaterial,secondarySphere, raycaster, isDrawing;
 console.log("test")
@@ -100,13 +114,19 @@ function createEggGeometry(radius, height, widthSegments, heightSegments) {
 function onMouseDown(event) {
   if(event.button !=0) return;
   isDrawing = true;
-  draw(event);
+  if(toolState=="pen")
+    penDraw(event);
+  else
+    circleDraw(event)
 }
 
 let lastIntersection=undefined;
 function onMouseMove(event) {
   if (isDrawing) {
-    draw(event);
+    if(toolState=="pen")
+      penDraw(event);
+    else
+      circleDraw(event)
   }
 }
 
@@ -127,8 +147,26 @@ function getMousePosition(event) {
   return mouse;
 }
 
+function circleDraw(event){
+  if (!sphere) return;
 
-function draw(event) {
+  const mouse = getMousePosition(event);
+
+  raycaster.setFromCamera(mouse, camera);
+  
+  const intersects = raycaster.intersectObject(sphere, true);
+  if (intersects.length > 0) {
+    const intersect = intersects[0];
+    console.log("should draw")
+    const currentUV = intersect.uv;
+    const currentY = (1 - currentUV.y) * drawingCanvas.height;
+    drawLine(drawingContext,penColor,0,currentY,drawingCanvas.width,currentY)
+    secondaryMaterial.map.needsUpdate = true;
+  }
+}
+
+
+function penDraw(event) {
   if (!sphere) return;
 
   const mouse = getMousePosition(event);
