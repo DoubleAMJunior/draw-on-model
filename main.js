@@ -9,6 +9,14 @@ colorPicker.addEventListener('input', (event) => {
   penColor= event.target.value;
 });
 
+const resetBtn = document.getElementById('reset');
+resetBtn.addEventListener('click', (event) => {
+  drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+  drawingContext.fillStyle = "rgba(0, 0, 0, 0)";
+  drawingContext.fillRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+  secondaryMaterial.map.needsUpdate = true;
+});
+
 let toolState="pen";
 const penButton = document.getElementById('pen');
 const circlePenButton = document.getElementById('circlePen');
