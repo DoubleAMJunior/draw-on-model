@@ -163,17 +163,18 @@ function draw(event) {
 
           // Determine direction of wrap (left to right or right to left)
           if (currentUV.x > lastUV.x) {
+            console.log(lastX+" "+lastY+" : "+currentX+" "+currentY)
             // From right edge to left edge
             // Draw from last point to right edge
-            drawLine(drawingContext,penColor,lastX, lastY, drawingCanvas.width, lastY);
+            drawLine(drawingContext,penColor,lastX, lastY, 0,currentY);
             // Draw from left edge to current point
-            drawLine(drawingContext,penColor,0, currentY, currentX, currentY);
+            drawLine(drawingContext,penColor,drawingCanvas.width, lastY, currentX, currentY);
           } else {
             // From left edge to right edge
             // Draw from last point to left edge
-            drawLine(drawingContext,penColor,lastX, lastY, 0, lastY);
+            drawLine(drawingContext,penColor,lastX, lastY,drawingCanvas.width, lastY);
             // Draw from right edge to current point
-            drawLine(drawingContext,penColor,drawingCanvas.width, currentY, currentX, currentY);
+            drawLine(drawingContext,penColor,0, currentY, currentX, currentY);
           }
         } else if (deltaV > wrapThreshold) {
           // V wrap-around detected
@@ -182,15 +183,15 @@ function draw(event) {
           if (currentUV.y > lastUV.y) {
             // From bottom edge to top edge
             // Draw from last point to bottom edge
-            drawLine(drawingContext,penColor,lastX, lastY, lastX, drawingCanvas.height);
+            drawLine(drawingContext,penColor,lastX, lastY, lastX,0 );
             // Draw from top edge to current point
-            drawLine(drawingContext,penColor,currentX, 0, currentX, currentY);
+            drawLine(drawingContext,penColor,currentX, drawingCanvas.height, currentX, currentY);
           } else {
             // From top edge to bottom edge
             // Draw from last point to top edge
-            drawLine(drawingContext,penColor,lastX, lastY, lastX, 0);
+            drawLine(drawingContext,penColor,lastX, lastY, lastX,  drawingCanvas.height);
             // Draw from bottom edge to current point
-            drawLine(drawingContext,penColor,currentX, drawingCanvas.height, currentX, currentY);
+            drawLine(drawingContext,penColor,currentX,0, currentX, currentY);
           }
         } else {
           // No wrap-around, draw normally
