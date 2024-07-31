@@ -1,0 +1,36 @@
+body{
+    overflow: hidden;
+    margin: 0;
+    background: linear-gradient(0deg, #4d4d4d 50%, rgb(146, 146, 146) 100%);
+  }
+  .color-picker-container {
+        margin: 10px;
+    }
+
+    .color-picker-label {
+        font-size: 16px;
+        margin-right: 10px;
+    }
+    input[type="color"] {
+      -webkit-appearance: none;
+      border: none;
+      width: 32px;
+      height: 32px;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+      input[type="color"]::-webkit-color-swatch {
+        border: none;
+      }
+    .color-picker-input {
+        width: 30px;
+        height: 30px;
+        border: none;
+        cursor: pointer;
+        border: none; /* Remove the border */
+        padding: 0; /* Remove padding */
+        appearance: none; /* Remove default styling */
+        -webkit-appearance: none; /* Remove default styling in WebKit browsers */
+        -moz-appearance: none; /* Remove default styling in Firefox */
+    }
