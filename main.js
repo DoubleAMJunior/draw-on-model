@@ -140,31 +140,63 @@ function draw(event) {
     const intersect = intersects[0];
 
     // Draw on the canvas
-    const uv = intersect.uv;
-    const currentX = uv.x * drawingCanvas.width;
-    const currentY = (1 - uv.y) * drawingCanvas.height;
+    const currentUV = intersect.uv;
+    const currentX = currentUV.x * drawingCanvas.width;
+    const currentY = (1 - currentUV.y) * drawingCanvas.height;
 
       if (lastIntersection) {
-      const lastUV = lastIntersection.uv;
-      const lastX = lastUV.x * drawingCanvas.width;
-      const lastY = (1 - lastUV.y) * drawingCanvas.height;
+        const lastUV = lastIntersection.uv;
+        const lastX = lastUV.x * drawingCanvas.width;
+        const lastY = (1 - lastUV.y) * drawingCanvas.height;
 
-      const dx = currentX - lastX;
-      const dy = currentY - lastY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+        // Calculate the absolute difference in UV coordinates
+        const deltaU = Math.abs(currentUV.x - lastUV.x);
+        const deltaV = Math.abs(currentUV.y - lastUV.y);
+        const dx = currentX - lastX;
+        const dy = currentY - lastY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        // Define a threshold to detect wrap-around
+        const wrapThreshold = 0.5;
+        
+        if (deltaU > wrapThreshold) {
+          // U wrap-around detected
 
-      // Draw circles along the line from lastPosition to currentPosition
-      for (let i = 0; i < distance; i += 1) {
-        const x = lastX + (dx * (i / distance));
-        const y = lastY + (dy * (i / distance));
+          // Determine direction of wrap (left to right or right to left)
+          if (currentUV.x > lastUV.x) {
+            // From right edge to left edge
+            // Draw from last point to right edge
+            drawLine(drawingContext,lastX, lastY, drawingCanvas.width, lastY);
+            // Draw from left edge to current point
+            drawLine(drawingContext,0, currentY, currentX, currentY);
+          } else {
+            // From left edge to right edge
+            // Draw from last point to left edge
+            drawLine(drawingContext,lastX, lastY, 0, lastY);
+            // Draw from right edge to current point
+            drawLine(drawingContext,drawingCanvas.width, currentY, currentX, currentY);
+          }
+        } else if (deltaV > wrapThreshold) {
+          // V wrap-around detected
 
-        drawingContext.fillStyle = penColor;
-        drawingContext.beginPath();
-        drawingContext.arc(x, y, 5, 0, Math.PI * 2);
-        drawingContext.fill();
-      }
+          // Determine direction of wrap (bottom to top or top to bottom)
+          if (currentUV.y > lastUV.y) {
+            // From bottom edge to top edge
+            // Draw from last point to bottom edge
+            drawLine(drawingContext,lastX, lastY, lastX, drawingCanvas.height);
+            // Draw from top edge to current point
+            drawLine(drawingContext,currentX, 0, currentX, currentY);
+          } else {
+            // From top edge to bottom edge
+            // Draw from last point to top edge
+            drawLine(drawingContext,lastX, lastY, lastX, 0);
+            // Draw from bottom edge to current point
+            drawLine(drawingContext,currentX, drawingCanvas.height, currentX, currentY);
+          }
+        } else {
+          // No wrap-around, draw normally
+          drawLine(drawingContext,lastX, lastY, currentX, currentY);
+        }
     } else {
-      // Draw the first circle if there's no previous intersection
       drawingContext.fillStyle = penColor;
       drawingContext.beginPath();
       drawingContext.arc(currentX, currentY, 5, 0, Math.PI * 2);
@@ -177,7 +209,14 @@ function draw(event) {
     lastIntersection=undefined
   }
 }
-
+function drawLine(context,x1, y1, x2, y2) {
+  context.strokeStyle = penColor;
+  context.lineWidth=5;
+  context.beginPath();
+  context.moveTo(x1, y1);
+  context.lineTo(x2, y2);
+  context.stroke();
+}
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
