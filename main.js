@@ -72,12 +72,15 @@ function init() {
   document.body.appendChild(renderer.domElement);
 
   controls = new OrbitControls(camera, renderer.domElement);
+   
   controls.enableDamping = true;
-  controls.enablePan = false;
-
   controls.minDistance = 1;
   controls.maxDistance = 5;
-  controls.enableDamping = true;
+  controls.enableRotate = true;
+  controls.screenSpacePanning = false; 
+  controls.minPolarAngle = 0; 
+  controls.maxPolarAngle = Math.PI; 
+  controls.rotateSpeed = 1.0;
   controls.mouseButtons= {
     RIGHT: THREE.MOUSE.ROTATE,
     MIDDLE : THREE.MOUSE.DOLLY
@@ -120,7 +123,6 @@ function init() {
   secondarySphere = new THREE.Mesh(sphereGeometry, secondaryMaterial);
   secondarySphere.visible = true;
   scene.add(secondarySphere);
-
   window.addEventListener('mousedown', onMouseDown, false);
   window.addEventListener('mousemove', onMouseMove, false);
   window.addEventListener('mouseup', onMouseUp, false);
