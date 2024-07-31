@@ -19,7 +19,7 @@ function init() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 0, 5);
+  camera.position.set(0, 0, 2);
 
   renderer = new THREE.WebGLRenderer({alpha:true, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -29,8 +29,8 @@ function init() {
   controls.enableDamping = true;
   controls.enablePan = false;
 
-  controls.minDistance = 2;
-  controls.maxDistance = 30;
+  controls.minDistance = 1;
+  controls.maxDistance = 5;
   controls.enableDamping = true;
   controls.mouseButtons= {
     RIGHT: THREE.MOUSE.ROTATE,
@@ -47,8 +47,8 @@ function init() {
   raycaster = new THREE.Raycaster();
 
   drawingCanvas = document.createElement('canvas');
-  drawingCanvas.width = 1024 *2;
-  drawingCanvas.height = 1024 * 2;
+  drawingCanvas.width = 1024 *4;
+  drawingCanvas.height = 1024 * 4;
   drawingContext = drawingCanvas.getContext('2d');
   drawingContext.fillStyle = "rgba(0,0,0,0)";
   drawingContext.fillRect(0, 0, drawingCanvas.width, drawingCanvas.height);
