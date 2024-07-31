@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 
@@ -142,8 +141,8 @@ function draw(event) {
 
     // Draw on the canvas
     const uv = intersect.uv;
-    const x = uv.x * drawingCanvas.width;
-    const y = (1 - uv.y) * drawingCanvas.height;
+    const currentX = uv.x * drawingCanvas.width;
+    const currentY = (1 - uv.y) * drawingCanvas.height;
 
       if (lastIntersection) {
       const lastUV = lastIntersection.uv;
