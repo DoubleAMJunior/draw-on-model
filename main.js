@@ -8,6 +8,30 @@ colorPicker.addEventListener('input', (event) => {
   // Get the selected color value
   penColor= event.target.value;
 });
+const download = document.getElementById('export');
+download.addEventListener('click', (event) => {
+  openCanvasInNewTab()
+});
+function openCanvasInNewTab() {
+  // Get the data URL of the canvas content
+  const dataURL = drawingCanvas.toDataURL("image/png");
+
+  // Convert the data URL to a Blob
+  const byteString = atob(dataURL.split(',')[1]);
+  const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+
+  const blob = new Blob([arrayBuffer], { type: mimeString });
+
+  // Create a URL for the Blob and open it in a new tab
+  const blobURL = URL.createObjectURL(blob);
+  window.open(blobURL, '_blank');
+}
 
 const resetBtn = document.getElementById('reset');
 resetBtn.addEventListener('click', (event) => {
