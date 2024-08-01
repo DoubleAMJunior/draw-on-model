@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Egg coloring</title>
+    <script type="module" crossorigin src="/assets/index-MTyAJEqC.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-52Jn4xk-.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    
+    
+    <div class="sidebar">
+      <h2>Tools</h2>
+
+      <div class="tool-sectio ">
+          <label for="colorPicker">Pen Color</label>
+          <div class=" color-picker-holder">
+            <div class="color-picker-parent">
+              <input type="color" id="colorPicker" class="color-picker-input" value="#ff0000">
+            </div>
+          </div>  
+      </div>
+
+      <div class="tool-section">
+          <label for="pen type">Pen Type</label>
+          <div class="pen-section">
+            <button id="pen" class="selected">Pen</button>
+            <button id="circlePen">Circle Pen</button>
+          </div>
+      </div>
+
+      <div class="tool-section">
+          <label for="eraser">Eraser</label>
+          <button id="reset">Reset</button>
+      </div>
+      <div class="tool-section">
+        <label for="export">Export</label>
+        <button id="export">Download</button>
+    </div>
+  </div>
+  <div id="welcome-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Welcome to the Egg Coloring App!</h2>
+      <p>Draw on the egg using your mouse:</p>
+      <ul>
+        <li><strong>Left Click:</strong> Draw on the egg</li>
+        <li><strong>Scroll:</strong> Zoom in/out</li>
+        <li><strong>Right Click:</strong> Rotate the egg</li>
+      </ul>
+      <button id="start-button">Start Coloring</button>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('welcome-modal');
+      const closeButton = document.querySelector('.close-button');
+      const startButton = document.getElementById('start-button');
+
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+
+      closeButton.addEventListener('click', closeModal);
+      startButton.addEventListener('click', closeModal);
+
+      // Optionally, close the modal when clicking outside the content
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+    });
+  </script>
+  </body>
+</html>
