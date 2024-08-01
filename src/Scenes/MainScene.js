@@ -50,7 +50,7 @@ export default class MainScene {
     this.secondaryMaterial = new THREE.MeshStandardMaterial({
         map: texture,
         transparent: true,
-        metalness: 0.6  ,
+        metalness: 0  ,
         roughness: 0.5
     });
 
