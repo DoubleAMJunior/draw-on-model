@@ -40,5 +40,39 @@
         <button id="export">Download</button>
     </div>
   </div>
+  <div id="welcome-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Welcome to the Egg Coloring App!</h2>
+      <p>Draw on the egg using your mouse:</p>
+      <ul>
+        <li><strong>Left Click:</strong> Draw on the egg</li>
+        <li><strong>Scroll:</strong> Zoom in/out</li>
+        <li><strong>Right Click:</strong> Rotate the egg</li>
+      </ul>
+      <button id="start-button">Start Coloring</button>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('welcome-modal');
+      const closeButton = document.querySelector('.close-button');
+      const startButton = document.getElementById('start-button');
+
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+
+      closeButton.addEventListener('click', closeModal);
+      startButton.addEventListener('click', closeModal);
+
+      // Optionally, close the modal when clicking outside the content
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+    });
+  </script>
   </body>
 </html>
